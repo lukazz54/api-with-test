@@ -1,5 +1,6 @@
 package br.com.estudosJava.api.services.impl;
 
+import br.com.estudosJava.api.config.ModelMapperConfig;
 import br.com.estudosJava.api.domain.User;
 import br.com.estudosJava.api.repositories.UserRepository;
 import br.com.estudosJava.api.services.UserService;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
 
     @Override
     public User findById(Integer id) {
