@@ -1,6 +1,5 @@
 package br.com.estudosJava.api.services.impl;
 
-import br.com.estudosJava.api.config.ModelMapperConfig;
 import br.com.estudosJava.api.domain.User;
 import br.com.estudosJava.api.repositories.UserRepository;
 import br.com.estudosJava.api.services.UserService;
@@ -8,6 +7,7 @@ import br.com.estudosJava.api.services.exceptions.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,5 +21,9 @@ public class UserServiceImpl implements UserService {
     public User findById(Integer id) {
         Optional<User> user = userRepository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!"));
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }
