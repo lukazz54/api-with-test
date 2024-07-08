@@ -1,5 +1,6 @@
 package br.com.estudosJava.api.resources;
 
+import br.com.estudosJava.api.domain.User;
 import br.com.estudosJava.api.domain.dto.UserDTO;
 import br.com.estudosJava.api.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -39,5 +40,11 @@ public class UserResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(userService.create(obj).getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update (@RequestBody UserDTO obj, @PathVariable Integer id) {
+        obj.setId(id);
+        return ResponseEntity.ok().body(mapper.map(userService.update(obj), UserDTO.class));
     }
 }
