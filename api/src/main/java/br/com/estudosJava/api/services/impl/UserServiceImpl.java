@@ -1,10 +1,12 @@
 package br.com.estudosJava.api.services.impl;
 
 import br.com.estudosJava.api.domain.User;
+import br.com.estudosJava.api.domain.dto.UserDTO;
 import br.com.estudosJava.api.repositories.UserRepository;
 import br.com.estudosJava.api.services.UserService;
 import br.com.estudosJava.api.services.exceptions.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper mapper;
 
 
     @Override
@@ -25,5 +28,10 @@ public class UserServiceImpl implements UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User create(UserDTO dto) {
+        return userRepository.save(mapper.map(dto, User.class));
     }
 }
