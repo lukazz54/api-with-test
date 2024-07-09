@@ -20,7 +20,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper mapper;
 
-
     @Override
     public User findById(Integer id) {
         Optional<User> user = userRepository.findById(id);
