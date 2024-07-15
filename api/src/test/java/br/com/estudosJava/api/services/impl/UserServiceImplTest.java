@@ -23,6 +23,8 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserServiceImplTest {
+    //Nota:. Os testes nao dao certo quando a injeção de dependencia vem atravez dos construtores
+    //É necessario colocar o @Autowired
 
     public static final Integer ID      = 1;
     public static final String NAME     = "Lucas";
@@ -155,7 +157,7 @@ class UserServiceImplTest {
         try {
             service.delete(ID);
         }catch(Exception e ) {
-            assertEquals(ObjectNotFoundException.class, e .getClass());
+            assertEquals(ObjectNotFoundException.class, e.getClass());
         }
     }
 
