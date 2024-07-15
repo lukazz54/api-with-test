@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +33,7 @@ class UserServiceImplTest {
     private UserServiceImpl service;
 
     @Mock
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Mock
     private ModelMapper mapper;
@@ -51,7 +52,7 @@ class UserServiceImplTest {
     @Test
     void whenFindByIdThenReturnAnUserInstance() {
         //Quanto o findById for chamado retorna o valor do Optional User que foi mockado
-        when(repository.findById(anyInt())).thenReturn(optionalUser);
+        when(userRepository.findById(anyInt())).thenReturn(optionalUser);
 
         User response = service.findById(ID);
 
@@ -61,20 +62,19 @@ class UserServiceImplTest {
 
     @Test
     void whenFindByIdThenReturnAnObjectNotFoundException() {
-        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Usuario não encontrado!"));
+        when(userRepository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Usuario não encontrado!"));
 
         try {
             service.findById(ID);
         }catch(Exception e ) {
             assertEquals(ObjectNotFoundException.class, e.getClass());
             assertEquals("Usuario não encontrado!", e.getMessage());
-
         }
     }
 
     @Test
     void whenFindAllThenReturnAnListOfUsers() {
-        when(repository.findAll()).thenReturn(List.of(user));
+        when(userRepository.findAll()).thenReturn(List.of(user));
 
         List<User> response = service.findAll();
 
@@ -86,7 +86,17 @@ class UserServiceImplTest {
     }
 
     @Test
-    void create() {
+    void whenCreateThenReturnSuccess() {
+        when(userRepository.save(any())).thenReturn(user);
+
+        User response = service.create(userDTO);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(PASSWORD, response.getPassword());
+        assertEquals(EMAIL, response.getEmail());
     }
 
     @Test
